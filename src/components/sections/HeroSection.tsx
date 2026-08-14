@@ -3,22 +3,18 @@ import type { Language } from "../../types"
 import { UI_TEXT } from "../../data/siteData"
 import { ArrowRightIcon } from "../ui/Icons"
 
-import kaabaGroupImg from "../../assets/images/kaaba_group.jpg"
-import hajjBusImg from "../../assets/images/hajj_bus.jpg"
-import officeTeamImg from "../../assets/images/office_team.jpg"
-
 interface HeroSectionProps {
   language: Language
   onNavigate: (id: string) => void
 }
 
 const HERO_SLIDESHOW_IMAGES = [
-  kaabaGroupImg,
-  hajjBusImg,
-  officeTeamImg,
+  "/images/hero/hero-01.jpg",
+  "/images/hero/hero-02.jpg",
+  "/images/hero/hero-03.jpg",
+  "/images/hero/hero-04.jpg",
   "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=1600&h=900&fit=crop&auto=format&q=80",
   "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&h=900&fit=crop&auto=format&q=80",
-  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=1600&h=900&fit=crop&auto=format&q=80",
 ]
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -26,16 +22,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigate,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
-  const isPreloaded = useRef(false)
+  const isPreloadedRef = useRef(false)
 
-  // Preload all slideshow images on initial mount to guarantee instant, seamless transitions on Vercel
+  // Preload all hero slideshow images on mount for instant seamless cross-fading
   useEffect(() => {
-    if (!isPreloaded.current) {
+    if (!isPreloadedRef.current) {
       HERO_SLIDESHOW_IMAGES.forEach((src) => {
         const img = new Image()
         img.src = src
+        if (img.decode) {
+          img.decode().catch(() => {
+            // Ignore decode cancellation
+          })
+        }
       })
-      isPreloaded.current = true
+      isPreloadedRef.current = true
     }
 
     const timer = setInterval(() => {
@@ -61,27 +62,38 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       }}
     >
       {/* Background Automatic Image Slideshow with Smooth Cross-Fade */}
-      {HERO_SLIDESHOW_IMAGES.map((imgUrl, index) => {
-        const isActive = index === currentSlideIndex
-        return (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `url(${imgUrl})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: isActive ? 1 : 0,
-              transition:
-                "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 4s cubic-bezier(0.4, 0, 0.2, 1)",
-              transform: isActive ? "scale(1.04)" : "scale(1.0)",
-              zIndex: 1,
-              willChange: "opacity, transform",
-            }}
-          />
-        )
-      })}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          overflow: "hidden",
+          zIndex: 1,
+        }}
+      >
+        {HERO_SLIDESHOW_IMAGES.map((imgUrl, index) => {
+          const isActive = index === currentSlideIndex
+          return (
+            <img
+              key={index}
+              src={imgUrl}
+              alt={`Robi Air Overseas Hero Slide ${index + 1}`}
+              loading="eager"
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+                opacity: isActive ? 1 : 0,
+                transition: "opacity 1.2s ease-in-out",
+                willChange: "opacity",
+                pointerEvents: "none",
+              }}
+            />
+          )
+        })}
+      </div>
 
       {/* Dark Teal Overlay Gradient */}
       <div
@@ -91,6 +103,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           background:
             "linear-gradient(135deg, rgba(4,27,24,0.92) 0%, rgba(5,59,54,0.84) 60%, rgba(4,27,24,0.76) 100%)",
           zIndex: 2,
+          pointerEvents: "none",
         }}
       />
       <div
@@ -102,6 +115,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           width: 4,
           background: "linear-gradient(to bottom, #DC2626, #007A5E, #D4AF37)",
           zIndex: 3,
+          pointerEvents: "none",
         }}
       />
 

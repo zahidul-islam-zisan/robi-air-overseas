@@ -8,8 +8,6 @@ import type {
   LocalizedString,
 } from "../types"
 
-import kaabaGroupImg from "../assets/images/kaaba_group.jpg"
-
 export const NAV_LINKS: NavLink[] = [
   { id: "home", label: { bn: "হোম", en: "Home" } },
   { id: "about", label: { bn: "আমাদের সম্পর্কে", en: "About Us" } },
@@ -38,7 +36,7 @@ export const TRUST_STRIP_ITEMS: TrustItem[] = [
     iconName: "Mosque",
     label: { bn: "হজ ও উমরাহ", en: "Hajj & Umrah" },
     sub: { bn: "পবিত্র যাত্রার প্যাকেজ", en: "Pilgrimage Packages" },
-    bgImg: kaabaGroupImg,
+    bgImg: "/images/services/service-hajj.jpg",
   },
   {
     iconName: "Hotel",
@@ -120,7 +118,7 @@ export const PACKAGES_DATA: PackageItem[] = [
     id: "hajj-pkg",
     title: { bn: "হজ প্যাকেজ", en: "Hajj Packages" },
     subtitle: { bn: "পবিত্র হজ যাত্রা", en: "Holy Hajj Journey" },
-    img: kaabaGroupImg,
+    img: "/images/packages/package-hajj.jpg",
     alt: { bn: "মক্কায় কাবা শরীফ", en: "Holy Kaaba in Makkah" },
     cta: { bn: "প্যাকেজের বিস্তারিত জানুন", en: "Get Package Details" },
     badge: { bn: "হজ", en: "Hajj" },
