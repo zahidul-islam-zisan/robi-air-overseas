@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import type { Language } from "../../types"
 import { UI_TEXT } from "../../data/siteData"
-import { ArrowRightIcon } from "../ui/Icons"
+import { ArrowRightIcon, WhatsAppIcon } from "../ui/Icons"
 
 interface HeroSectionProps {
   language: Language
@@ -213,6 +213,79 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Right Side Floating WhatsApp Quick Contact Badge */}
+        <a
+          href="https://wa.me/8801928826736"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden lg:flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300 hover:scale-105 group"
+          style={{
+            position: "absolute",
+            right: 24,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 20,
+            background: "rgba(4, 27, 24, 0.82)",
+            backdropFilter: "blur(14px)",
+            border: "1px solid rgba(37, 211, 102, 0.45)",
+            boxShadow:
+              "0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(37, 211, 102, 0.25)",
+            textDecoration: "none",
+            width: 175,
+          }}
+        >
+          <div
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 0 20px rgba(37, 211, 102, 0.6)",
+            }}
+            className="group-hover:rotate-12 transition-transform duration-300"
+          >
+            <WhatsAppIcon size={28} style={{ color: "#ffffff" }} />
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 800,
+                color: "#25D366",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              WhatsApp
+            </div>
+            <div
+              style={{
+                fontSize: 15,
+                fontWeight: 800,
+                color: "#ffffff",
+                marginTop: 2,
+                letterSpacing: "0.3px",
+              }}
+            >
+              01928826736
+            </div>
+            <div
+              style={{
+                fontSize: 11,
+                color: "rgba(255, 255, 255, 0.75)",
+                marginTop: 4,
+                fontWeight: 600,
+              }}
+            >
+              {language === "bn" ? "সরাসরি চ্যাট করুন" : "Chat Directly"}
+            </div>
+          </div>
+        </a>
       </div>
 
       {/* Slideshow Progress Indicators */}
