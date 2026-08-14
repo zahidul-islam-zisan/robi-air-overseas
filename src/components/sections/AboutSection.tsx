@@ -146,7 +146,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             ))}
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <a
               href="tel:01825679099"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm sm:text-base text-white border-none cursor-pointer transition-all hover:scale-105 shadow-lg"

@@ -136,8 +136,11 @@ export const PACKAGES_DATA: PackageItem[] = [
     id: "tour-pkg",
     title: { bn: "ট্যুর প্যাকেজ", en: "Tour Packages" },
     subtitle: { bn: "বিশ্বভ্রমণ ও ছুটি", en: "World Travel & Holiday" },
-    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=500&fit=crop&auto=format&q=80",
-    alt: { bn: "আকর্ষণীয় ট্যুর গন্তব্য", en: "Attractive Tour Destinations" },
+    img: "/images/packages/package-tour.jpg",
+    alt: {
+      bn: "আইফেল টাওয়ার ও প্যারিস, ফ্রান্স",
+      en: "Eiffel Tower & Paris, France",
+    },
     cta: { bn: "প্যাকেজের বিস্তারিত জানুন", en: "Get Package Details" },
     badge: { bn: "ট্যুর", en: "Tour" },
   },
