@@ -8,6 +8,8 @@ import type {
   LocalizedString,
 } from "../types"
 
+export const WHATSAPP_NUMBER = "8801928826736"
+
 export const NAV_LINKS: NavLink[] = [
   { id: "home", label: { bn: "হোম", en: "Home" } },
   { id: "about", label: { bn: "আমাদের সম্পর্কে", en: "About Us" } },

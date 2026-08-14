@@ -11,6 +11,7 @@ import { OverseasSection } from "./components/sections/OverseasSection"
 import { WhyUsSection } from "./components/sections/WhyUsSection"
 import { B2BSection } from "./components/sections/B2BSection"
 import { ContactSection } from "./components/sections/ContactSection"
+import { FixedWhatsAppButton } from "./components/ui/FixedWhatsAppButton"
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
@@ -62,6 +63,9 @@ export default function App() {
         <B2BSection language={language} onNavigate={scrollTo} />
         <ContactSection language={language} />
       </main>
+
+      {/* Fixed Right Viewport Edge WhatsApp Contact Tab */}
+      <FixedWhatsAppButton />
 
       {/* Footer & Language Toggle */}
       <Footer
