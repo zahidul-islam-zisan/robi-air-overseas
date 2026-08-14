@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import type { Language } from "../../types"
 import { NAV_LINKS, UI_TEXT } from "../../data/siteData"
-import { RobiAirLogo, MenuIcon, XIcon } from "../ui/Icons"
+import { RobiAirLogo, MenuIcon, XIcon, PhoneIcon } from "../ui/Icons"
 
 interface HeaderProps {
   scrolled: boolean
@@ -112,17 +112,18 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Action CTA & Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => handleNav("contact")}
+            <a
+              href="tel:01825679099"
               className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white border-none cursor-pointer transition-all hover:scale-105 shadow-md"
               style={{
                 background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
                 boxShadow: "0 4px 14px rgba(220, 38, 38, 0.4)",
+                textDecoration: "none",
               }}
             >
+              <PhoneIcon size={14} />
               {UI_TEXT.header.contactCta[language]}
-            </button>
+            </a>
 
             <button
               type="button"

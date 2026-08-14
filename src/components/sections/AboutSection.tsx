@@ -1,7 +1,7 @@
 import React from "react"
 import type { Language } from "../../types"
 import { UI_TEXT } from "../../data/siteData"
-import { CheckIcon, ArrowRightIcon, RobiAirLogo } from "../ui/Icons"
+import { CheckIcon, ArrowRightIcon, RobiAirLogo, PhoneIcon } from "../ui/Icons"
 import { Badge } from "../ui/Badge"
 import { Button } from "../ui/Button"
 
@@ -146,10 +146,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             ))}
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button variant="secondary" onClick={() => onNavigate("contact")}>
-              {UI_TEXT.about.cta[language]} <ArrowRightIcon size={16} />
-            </Button>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <a
+              href="tel:01825679099"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm sm:text-base text-white border-none cursor-pointer transition-all hover:scale-105 shadow-lg"
+              style={{
+                background: "linear-gradient(135deg, #041B18 0%, #053B36 100%)",
+                boxShadow: "0 4px 16px rgba(4, 27, 24, 0.35)",
+                textDecoration: "none",
+              }}
+            >
+              <PhoneIcon size={16} />
+              {UI_TEXT.about.cta[language]}
+            </a>
           </div>
         </div>
       </div>

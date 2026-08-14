@@ -246,7 +246,7 @@ export const UI_TEXT = {
   header: {
     brandName: "Robi Air Overseas",
     tagline: { bn: "ট্রাভেল ও ওভারসিজ সেবা", en: "Travel & Overseas Services" },
-    contactCta: { bn: "যোগাযোগ করুন", en: "Contact Us" },
+    contactCta: { bn: "01825679099", en: "01825679099" },
   },
   hero: {
     badge: {
@@ -279,7 +279,7 @@ export const UI_TEXT = {
     ],
     cardBadgeTitle: { bn: "বিশ্বস্ত এজেন্সি", en: "Trusted Agency" },
     cardBadgeSub: { bn: "বাংলাদেশ ভিত্তিক", en: "Based in Bangladesh" },
-    cta: { bn: "যোগাযোগ করুন", en: "Contact Us" },
+    cta: { bn: "01825679099", en: "01825679099" },
   },
   services: {
     badge: { bn: "আমাদের সেবাসমূহ", en: "OUR SERVICES" },
