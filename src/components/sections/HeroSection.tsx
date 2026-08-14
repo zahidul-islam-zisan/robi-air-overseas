@@ -95,13 +95,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         })}
       </div>
 
-      {/* Dark Teal Overlay Gradient */}
+      {/* Dark Teal Overlay Gradient - Lightened for vibrant image visibility */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(4,27,24,0.92) 0%, rgba(5,59,54,0.84) 60%, rgba(4,27,24,0.76) 100%)",
+            "linear-gradient(135deg, rgba(4,27,24,0.58) 0%, rgba(5,59,54,0.38) 50%, rgba(4,27,24,0.32) 100%)",
           zIndex: 2,
           pointerEvents: "none",
         }}
@@ -143,8 +143,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               borderRadius: 100,
               color: "#6ee7b7",
               border: "1px solid rgba(0, 122, 94, 0.4)",
-              background: "rgba(5, 59, 54, 0.4)",
-              backdropFilter: "blur(8px)",
+              background: "rgba(5, 59, 54, 0.55)",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
             }}
           >
             <span
@@ -167,6 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               color: "#ffffff",
               lineHeight: 1.2,
               marginBottom: 16,
+              textShadow: "0 3px 24px rgba(0, 0, 0, 0.85)",
             }}
           >
             {UI_TEXT.hero.headlineLine1[language]}
@@ -179,10 +181,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <p
             style={{
               fontSize: 16,
-              color: "rgba(255, 255, 255, 0.78)",
+              color: "rgba(255, 255, 255, 0.92)",
               marginBottom: 32,
               lineHeight: 1.75,
               maxWidth: 520,
+              textShadow: "0 2px 16px rgba(0, 0, 0, 0.85)",
             }}
           >
             {UI_TEXT.hero.subtext[language]}
