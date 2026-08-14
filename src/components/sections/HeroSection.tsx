@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import type { Language } from "../../types"
 import { UI_TEXT } from "../../data/siteData"
 import { ArrowRightIcon } from "../ui/Icons"
+
+import kaabaGroupImg from "../../assets/images/kaaba_group.jpg"
+import hajjBusImg from "../../assets/images/hajj_bus.jpg"
+import officeTeamImg from "../../assets/images/office_team.jpg"
 
 interface HeroSectionProps {
   language: Language
@@ -9,12 +13,12 @@ interface HeroSectionProps {
 }
 
 const HERO_SLIDESHOW_IMAGES = [
-  "/images/kaaba_group.jpg",
-  "/images/hajj_bus.jpg",
-  "/images/office_team.jpg",
-  "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=1600&h=900&fit=crop&auto=format",
-  "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&h=900&fit=crop&auto=format",
-  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=1600&h=900&fit=crop&auto=format",
+  kaabaGroupImg,
+  hajjBusImg,
+  officeTeamImg,
+  "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=1600&h=900&fit=crop&auto=format&q=80",
+  "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&h=900&fit=crop&auto=format&q=80",
+  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=1600&h=900&fit=crop&auto=format&q=80",
 ]
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -22,13 +26,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigate,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const isPreloaded = useRef(false)
 
+  // Preload all slideshow images on initial mount to guarantee instant, seamless transitions on Vercel
   useEffect(() => {
+    if (!isPreloaded.current) {
+      HERO_SLIDESHOW_IMAGES.forEach((src) => {
+        const img = new Image()
+        img.src = src
+      })
+      isPreloaded.current = true
+    }
+
     const timer = setInterval(() => {
       setCurrentSlideIndex(
         (prevIndex) => (prevIndex + 1) % HERO_SLIDESHOW_IMAGES.length,
       )
     }, 3000)
+
     return () => clearInterval(timer)
   }, [])
 
@@ -46,23 +61,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       }}
     >
       {/* Background Automatic Image Slideshow with Smooth Cross-Fade */}
-      {HERO_SLIDESHOW_IMAGES.map((imgUrl, index) => (
-        <div
-          key={index}
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: `url(${imgUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: index === currentSlideIndex ? 1 : 0,
-            transition: "opacity 1.2s ease-in-out, transform 4s ease-out",
-            transform:
-              index === currentSlideIndex ? "scale(1.04)" : "scale(1.0)",
-            zIndex: 1,
-          }}
-        />
-      ))}
+      {HERO_SLIDESHOW_IMAGES.map((imgUrl, index) => {
+        const isActive = index === currentSlideIndex
+        return (
+          <div
+            key={index}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${imgUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: isActive ? 1 : 0,
+              transition:
+                "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 4s cubic-bezier(0.4, 0, 0.2, 1)",
+              transform: isActive ? "scale(1.04)" : "scale(1.0)",
+              zIndex: 1,
+              willChange: "opacity, transform",
+            }}
+          />
+        )
+      })}
 
       {/* Dark Teal Overlay Gradient */}
       <div

@@ -4,6 +4,7 @@ import { UI_TEXT } from "../../data/siteData"
 import { CheckIcon, ArrowRightIcon, RobiAirLogo } from "../ui/Icons"
 import { Badge } from "../ui/Badge"
 import { Button } from "../ui/Button"
+import officeTeamImg from "../../assets/images/office_team.jpg"
 
 interface AboutSectionProps {
   language: Language
@@ -47,7 +48,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             }}
           >
             <img
-              src="/images/office_team.jpg"
+              src={officeTeamImg}
               alt={UI_TEXT.about.title[language]}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />

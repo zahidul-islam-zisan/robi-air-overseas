@@ -3,6 +3,7 @@ import type { Language } from "../../types"
 import { OVERSEAS_FEATURES, UI_TEXT } from "../../data/siteData"
 import { Badge } from "../ui/Badge"
 import { CheckIcon, ArrowRightIcon } from "../ui/Icons"
+import overseasConsultantImg from "../../assets/images/overseas_consultant.jpg"
 
 interface OverseasSectionProps {
   language: Language
@@ -49,7 +50,7 @@ export const OverseasSection: React.FC<OverseasSectionProps> = ({
             }}
           >
             <img
-              src="/images/overseas_consultant.jpg"
+              src={overseasConsultantImg}
               alt={UI_TEXT.overseas.title[language]}
               style={{
                 width: "100%",
