@@ -95,13 +95,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         })}
       </div>
 
-      {/* Dark Teal Overlay Gradient - Lightened for vibrant image visibility */}
+      {/* Dark Teal Overlay Gradient - Balanced Shadow Overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(4,27,24,0.58) 0%, rgba(5,59,54,0.38) 50%, rgba(4,27,24,0.32) 100%)",
+            "linear-gradient(135deg, rgba(4,27,24,0.84) 0%, rgba(5,59,54,0.68) 60%, rgba(4,27,24,0.60) 100%)",
           zIndex: 2,
           pointerEvents: "none",
         }}
