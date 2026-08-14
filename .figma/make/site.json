@@ -1,0 +1,10 @@
+{
+  "description": "Enables users to quickly complete tasks or projects by providing streamlined tools that enhance productivity and simplify workflows.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
