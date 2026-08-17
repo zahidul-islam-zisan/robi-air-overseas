@@ -55,6 +55,45 @@ class HeroSlideCrudTest extends TestCase
     }
 
     /**
+     * Test public endpoint /api/hero-slides returns active hero slides only ordered by display_order.
+     */
+    public function test_public_can_fetch_active_hero_slides_only()
+    {
+        HeroSlide::create([
+            'title' => 'Active Slide 2',
+            'image' => 'hero-slides/active2.jpg',
+            'display_order' => 2,
+            'is_active' => true,
+        ]);
+
+        HeroSlide::create([
+            'title' => 'Inactive Slide',
+            'image' => 'hero-slides/inactive.jpg',
+            'display_order' => 1,
+            'is_active' => false,
+        ]);
+
+        HeroSlide::create([
+            'title' => 'Active Slide 1',
+            'image' => 'hero-slides/active1.jpg',
+            'display_order' => 1,
+            'is_active' => true,
+        ]);
+
+        $response = $this->getJson('/api/hero-slides');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(2, 'data')
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    ['title' => 'Active Slide 1', 'display_order' => 1],
+                    ['title' => 'Active Slide 2', 'display_order' => 2],
+                ],
+            ]);
+    }
+
+    /**
      * Test admin can list hero slides.
      */
     public function test_admin_can_list_hero_slides()

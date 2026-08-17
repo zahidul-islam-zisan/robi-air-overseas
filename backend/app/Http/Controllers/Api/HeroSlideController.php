@@ -29,6 +29,24 @@ class HeroSlideController extends Controller
     }
 
     /**
+     * Display a listing of active hero slides for the public homepage.
+     *
+     * GET /api/hero-slides
+     */
+    public function publicIndex(): JsonResponse
+    {
+        $slides = HeroSlide::where('is_active', true)
+            ->orderBy('display_order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $slides,
+        ], 200);
+    }
+
+    /**
      * Store a newly created hero slide in storage.
      *
      * POST /api/admin/hero-slides

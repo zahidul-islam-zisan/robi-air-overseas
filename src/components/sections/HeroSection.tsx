@@ -2,13 +2,17 @@ import React, { useState, useEffect, useRef } from "react"
 import type { Language } from "../../types"
 import { UI_TEXT } from "../../data/siteData"
 import { ArrowRightIcon, WhatsAppIcon } from "../ui/Icons"
+import {
+  getPublicHeroSlidesApi,
+  type HeroSlideItem,
+} from "../../services/heroSlideApi"
 
 interface HeroSectionProps {
   language: Language
   onNavigate: (id: string) => void
 }
 
-const HERO_SLIDESHOW_IMAGES = [
+const DEFAULT_HERO_SLIDESHOW_IMAGES = [
   "/images/hero/hero-01.jpg",
   "/images/hero/hero-02.jpg",
   "/images/hero/hero-03.jpg",
@@ -21,32 +25,66 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   language,
   onNavigate,
 }) => {
+  const [slideImages, setSlideImages] = useState<string[]>(
+    DEFAULT_HERO_SLIDESHOW_IMAGES,
+  )
+  const [apiSlides, setApiSlides] = useState<HeroSlideItem[]>([])
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
-  const isPreloadedRef = useRef(false)
 
-  // Preload all hero slideshow images on mount for instant seamless cross-fading
+  // Fetch active hero slides from public API on mount
   useEffect(() => {
-    if (!isPreloadedRef.current) {
-      HERO_SLIDESHOW_IMAGES.forEach((src) => {
-        const img = new Image()
-        img.src = src
-        if (img.decode) {
-          img.decode().catch(() => {
-            // Ignore decode cancellation
-          })
+    let isMounted = true
+
+    async function loadPublicSlides() {
+      const response = await getPublicHeroSlidesApi()
+      if (
+        isMounted &&
+        response.success &&
+        Array.isArray(response.data) &&
+        response.data.length > 0
+      ) {
+        const slides = response.data as HeroSlideItem[]
+        setApiSlides(slides)
+        const urls = slides
+          .map((s) => s.image_url)
+          .filter((url): url is string => Boolean(url))
+
+        if (urls.length > 0) {
+          setSlideImages(urls)
+          setCurrentSlideIndex(0)
         }
-      })
-      isPreloadedRef.current = true
+      }
     }
 
+    loadPublicSlides()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  // Automatic slideshow timer & image preloading
+  useEffect(() => {
+    if (slideImages.length === 0) return
+
+    // Preload slideshow images for instant cross-fading
+    slideImages.forEach((src) => {
+      const img = new Image()
+      img.src = src
+      if (img.decode) {
+        img.decode().catch(() => {})
+      }
+    })
+
     const timer = setInterval(() => {
-      setCurrentSlideIndex(
-        (prevIndex) => (prevIndex + 1) % HERO_SLIDESHOW_IMAGES.length,
-      )
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % slideImages.length)
     }, 3000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [slideImages])
+
+  // Current active API slide details if available
+  const activeApiSlide = apiSlides[currentSlideIndex]
 
   return (
     <section
@@ -70,11 +108,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           zIndex: 1,
         }}
       >
-        {HERO_SLIDESHOW_IMAGES.map((imgUrl, index) => {
+        {slideImages.map((imgUrl, index) => {
           const isActive = index === currentSlideIndex
           return (
             <img
-              key={index}
+              key={`${imgUrl}-${index}`}
               src={imgUrl}
               alt={`Robi Air Overseas Hero Slide ${index + 1}`}
               loading="eager"
@@ -227,7 +265,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         }}
         className="hidden sm:flex"
       >
-        {HERO_SLIDESHOW_IMAGES.map((_, index) => (
+        {slideImages.map((_, index) => (
           <button
             key={index}
             type="button"

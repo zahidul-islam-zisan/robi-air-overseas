@@ -22,6 +22,27 @@ export interface HeroSlideResponse {
 }
 
 /**
+ * Fetch active hero slides for the public website (Public).
+ */
+export async function getPublicHeroSlidesApi(): Promise<HeroSlideResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/hero-slides`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    const data = await response.json()
+    return data
+  } catch (error) {
+    return {
+      success: false,
+      message: "Network error. Unable to fetch public hero slides.",
+    }
+  }
+}
+
+/**
  * Fetch list of all hero slides (Admin).
  */
 export async function getHeroSlidesApi(
