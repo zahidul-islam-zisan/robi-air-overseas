@@ -42,8 +42,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               position: "relative",
               borderRadius: 20,
               overflow: "hidden",
-              height: 420,
-              background: "#e2ebe6",
+              height: 460,
+              background: "#041B18",
             }}
           >
             <img
@@ -53,7 +53,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                objectPosition: "center 25%",
+                objectPosition: "center 20%",
               }}
             />
             <div
