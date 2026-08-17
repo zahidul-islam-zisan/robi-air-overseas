@@ -139,8 +139,8 @@ export const PACKAGES_DATA: PackageItem[] = [
     subtitle: { bn: "বিশ্বভ্রমণ ও ছুটি", en: "World Travel & Holiday" },
     img: "/images/packages/package-tour.jpg",
     alt: {
-      bn: "আইফেল টাওয়ার ও প্যারিস, ফ্রান্স",
-      en: "Eiffel Tower & Paris, France",
+      bn: "ক্যান্টন টাওয়ার ও আন্তর্জাতিক ট্যুর গন্তব্য",
+      en: "Canton Tower & International Tour Destinations",
     },
     cta: { bn: "প্যাকেজের বিস্তারিত জানুন", en: "Get Package Details" },
     badge: { bn: "ট্যুর", en: "Tour" },
