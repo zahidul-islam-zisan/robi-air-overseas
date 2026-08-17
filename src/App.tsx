@@ -79,7 +79,11 @@ export default function App() {
 
   if (currentPath.startsWith("/admin")) {
     const adminSubTab =
-      currentPath === "/admin/hero-slides" ? "hero" : "dashboard"
+      currentPath === "/admin/hero-slides"
+        ? "hero"
+        : currentPath === "/admin/services"
+          ? "services"
+          : "dashboard"
 
     return (
       <AuthProvider>

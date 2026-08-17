@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { RobiAirLogo } from "../ui/Icons"
 import { HeroSlidesManager } from "./HeroSlidesManager"
+import { ServicesManager } from "./ServicesManager"
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -43,7 +44,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const MENU_ITEMS = [
     { id: "dashboard", label: "Dashboard", badge: "Live" },
     { id: "hero", label: "Hero Slides", badge: "CRUD Ready" },
-    { id: "services", label: "Services", badge: "Placeholder" },
+    { id: "services", label: "Services", badge: "CRUD Ready" },
     { id: "packages", label: "Packages", badge: "Placeholder" },
     { id: "overseas", label: "Overseas Services", badge: "Placeholder" },
     { id: "gallery", label: "Gallery Assets", badge: "Placeholder" },
@@ -244,6 +245,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             children
           ) : activeTab === "hero" ? (
             <HeroSlidesManager />
+          ) : activeTab === "services" ? (
+            <ServicesManager />
           ) : (
             <div
               style={{

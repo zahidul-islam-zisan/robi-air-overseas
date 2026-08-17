@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\HeroSlideController;
+use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,5 +59,13 @@ Route::prefix('admin')->group(function () {
         Route::put('/hero-slides/{id}', [HeroSlideController::class, 'update']);
         Route::post('/hero-slides/{id}', [HeroSlideController::class, 'update']);
         Route::delete('/hero-slides/{id}', [HeroSlideController::class, 'destroy']);
+
+        // Services Management
+        Route::get('/services', [ServiceController::class, 'index']);
+        Route::post('/services', [ServiceController::class, 'store']);
+        Route::get('/services/{id}', [ServiceController::class, 'show']);
+        Route::put('/services/{id}', [ServiceController::class, 'update']);
+        Route::post('/services/{id}', [ServiceController::class, 'update']);
+        Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
     });
 });
