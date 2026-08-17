@@ -128,7 +128,7 @@ export const PACKAGES_DATA: PackageItem[] = [
     id: "umrah-pkg",
     title: { bn: "উমরাহ প্যাকেজ", en: "Umrah Packages" },
     subtitle: { bn: "পবিত্র উমরাহ যাত্রা", en: "Holy Umrah Journey" },
-    img: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&h=500&fit=crop&auto=format&q=80",
+    img: "/images/packages/package-umrah.jpg",
     alt: { bn: "মক্কা মোকাররমা", en: "Makkah Mukarramah" },
     cta: { bn: "প্যাকেজের বিস্তারিত জানুন", en: "Get Package Details" },
     badge: { bn: "উমরাহ", en: "Umrah" },
