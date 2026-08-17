@@ -12,13 +12,33 @@ import { WhyUsSection } from "./components/sections/WhyUsSection"
 import { B2BSection } from "./components/sections/B2BSection"
 import { ContactSection } from "./components/sections/ContactSection"
 import { FixedWhatsAppButton } from "./components/ui/FixedWhatsAppButton"
+import { AuthProvider } from "./context/AuthContext"
+import { AdminLoginPage } from "./components/admin/AdminLoginPage"
+import { ProtectedRoute } from "./components/admin/ProtectedRoute"
+import { AdminLayout } from "./components/admin/AdminLayout"
+import { AdminDashboard } from "./components/admin/AdminDashboard"
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
   const [scrolled, setScrolled] = useState(false)
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem("robiair_lang")
     return saved === "en" ? "en" : "bn"
   })
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname)
+    }
+
+    window.addEventListener("popstate", handleLocationChange)
+    return () => window.removeEventListener("popstate", handleLocationChange)
+  }, [])
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, "", path)
+    setCurrentPath(path)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -31,12 +51,14 @@ export default function App() {
     document.body.setAttribute("data-lang", language)
 
     // Dynamic Title & Meta update for SEO
-    if (language === "bn") {
+    if (currentPath.startsWith("/admin")) {
+      document.title = "Admin Portal - Robi Air Overseas"
+    } else if (language === "bn") {
       document.title = "রবি এয়ার ওভারসিজ - ট্রাভেল ও ওভারসিজ সেবা"
     } else {
       document.title = "Robi Air Overseas - Travel & Overseas Services"
     }
-  }, [language])
+  }, [language, currentPath])
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
@@ -46,6 +68,28 @@ export default function App() {
     setLanguage(newLang)
   }
 
+  // Handle Admin Portal Routes
+  if (currentPath === "/admin/login") {
+    return (
+      <AuthProvider>
+        <AdminLoginPage onLoginSuccess={() => navigateTo("/admin")} />
+      </AuthProvider>
+    )
+  }
+
+  if (currentPath.startsWith("/admin")) {
+    return (
+      <AuthProvider>
+        <ProtectedRoute>
+          <AdminLayout onLogoutSuccess={() => navigateTo("/admin/login")}>
+            <AdminDashboard />
+          </AdminLayout>
+        </ProtectedRoute>
+      </AuthProvider>
+    )
+  }
+
+  // Public Website - Approved Client Design (100% Unchanged)
   return (
     <div style={{ minHeight: "100vh", background: "#ffffff" }}>
       {/* Navigation Header */}
