@@ -31,8 +31,7 @@ export const TRUST_STRIP_ITEMS: TrustItem[] = [
     iconName: "Globe",
     label: { bn: "ভিসা প্রসেসিং", en: "Visa Processing" },
     sub: { bn: "ওয়ার্ক ও ট্যুরিস্ট", en: "Work & Tourist" },
-    bgImg:
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=500&fit=crop&auto=format&q=80",
+    bgImg: "/images/services/service-visa.jpg",
   },
   {
     iconName: "Mosque",
