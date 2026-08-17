@@ -39,6 +39,7 @@ Route::get('/health', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/hero-slides', [HeroSlideController::class, 'publicIndex']);
+Route::get('/services', [ServiceController::class, 'publicIndex']);
 
 /*
 |--------------------------------------------------------------------------

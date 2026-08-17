@@ -55,6 +55,48 @@ class ServiceCrudTest extends TestCase
     }
 
     /**
+     * Test public endpoint /api/services returns active services only ordered by display_order.
+     */
+    public function test_public_can_fetch_active_services_only()
+    {
+        Service::create([
+            'title' => 'Active Service 2',
+            'slug' => 'active-service-2',
+            'image' => 'services/active2.jpg',
+            'display_order' => 2,
+            'is_active' => true,
+        ]);
+
+        Service::create([
+            'title' => 'Inactive Service',
+            'slug' => 'inactive-service',
+            'image' => 'services/inactive.jpg',
+            'display_order' => 1,
+            'is_active' => false,
+        ]);
+
+        Service::create([
+            'title' => 'Active Service 1',
+            'slug' => 'active-service-1',
+            'image' => 'services/active1.jpg',
+            'display_order' => 1,
+            'is_active' => true,
+        ]);
+
+        $response = $this->getJson('/api/services');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(2, 'data')
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    ['title' => 'Active Service 1', 'display_order' => 1],
+                    ['title' => 'Active Service 2', 'display_order' => 2],
+                ],
+            ]);
+    }
+
+    /**
      * Test admin can list services.
      */
     public function test_admin_can_list_services()

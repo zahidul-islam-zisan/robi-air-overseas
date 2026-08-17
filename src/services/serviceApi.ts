@@ -21,6 +21,27 @@ export interface ServiceResponse {
 }
 
 /**
+ * Fetch active services for the public homepage (Public).
+ */
+export async function getPublicServicesApi(): Promise<ServiceResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/services`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    const data = await response.json()
+    return data
+  } catch (error) {
+    return {
+      success: false,
+      message: "Network error. Unable to fetch public services.",
+    }
+  }
+}
+
+/**
  * Fetch list of all services (Admin).
  */
 export async function getServicesApi(token: string): Promise<ServiceResponse> {

@@ -30,6 +30,24 @@ class ServiceController extends Controller
     }
 
     /**
+     * Display a listing of active services for the public homepage.
+     *
+     * GET /api/services
+     */
+    public function publicIndex(): JsonResponse
+    {
+        $services = Service::where('is_active', true)
+            ->orderBy('display_order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $services,
+        ], 200);
+    }
+
+    /**
      * Store a newly created service in storage.
      *
      * POST /api/admin/services

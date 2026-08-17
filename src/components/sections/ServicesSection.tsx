@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import type { Language } from "../../types"
 import { SERVICES_DATA, UI_TEXT } from "../../data/siteData"
 import { SectionHeader } from "../ui/SectionHeader"
 import { ServiceCard } from "../ui/Card"
+import {
+  getPublicServicesApi,
+  type ServiceItem,
+} from "../../services/serviceApi"
 
 interface ServicesSectionProps {
   language: Language
@@ -13,6 +17,32 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   language,
   onNavigate,
 }) => {
+  const [apiServices, setApiServices] = useState<ServiceItem[]>([])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadPublicServices() {
+      const response = await getPublicServicesApi()
+      if (
+        isMounted &&
+        response.success &&
+        Array.isArray(response.data) &&
+        response.data.length > 0
+      ) {
+        setApiServices(response.data as ServiceItem[])
+      }
+    }
+
+    loadPublicServices()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const hasApiServices = apiServices.length > 0
+
   return (
     <section
       id="services"
@@ -32,16 +62,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
             gap: 24,
           }}
         >
-          {SERVICES_DATA.map((svc) => (
-            <ServiceCard
-              key={svc.id}
-              iconName={svc.iconName}
-              title={svc.title[language]}
-              description={svc.desc[language]}
-              ctaText={UI_TEXT.services.contactBtn[language]}
-              onContactClick={() => onNavigate("contact")}
-            />
-          ))}
+          {hasApiServices
+            ? apiServices.map((svc) => (
+                <ServiceCard
+                  key={svc.id}
+                  image={svc.image_url}
+                  title={svc.title}
+                  description={svc.short_description || ""}
+                  ctaText={UI_TEXT.services.contactBtn[language]}
+                  onContactClick={() => onNavigate("contact")}
+                />
+              ))
+            : SERVICES_DATA.map((svc) => (
+                <ServiceCard
+                  key={svc.id}
+                  iconName={svc.iconName}
+                  title={svc.title[language]}
+                  description={svc.desc[language]}
+                  ctaText={UI_TEXT.services.contactBtn[language]}
+                  onContactClick={() => onNavigate("contact")}
+                />
+              ))}
         </div>
       </div>
     </section>

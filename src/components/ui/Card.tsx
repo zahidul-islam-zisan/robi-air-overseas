@@ -2,7 +2,8 @@ import React from "react"
 import { DynamicIcon, ArrowRightIcon } from "./Icons"
 
 interface ServiceCardProps {
-  iconName: string
+  iconName?: string
+  image?: string
   title: string
   description: string
   ctaText: string
@@ -11,6 +12,7 @@ interface ServiceCardProps {
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({
   iconName,
+  image,
   title,
   description,
   ctaText,
@@ -28,7 +30,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         cursor: "default",
         display: "flex",
         flexDirection: "column",
-        justify: "space-between",
+        justifyContent: "space-between",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)"
@@ -40,25 +42,45 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       }}
     >
       <div>
-        <div
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 14,
-            background: "rgba(0, 106, 78, 0.10)",
-            border: "1px solid rgba(0, 106, 78, 0.25)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 20,
-          }}
-        >
-          <DynamicIcon
-            name={iconName}
-            size={22}
-            style={{ color: "var(--color-brand, #006A4E)" }}
-          />
-        </div>
+        {image ? (
+          <div
+            style={{
+              width: "100%",
+              height: 160,
+              borderRadius: 14,
+              overflow: "hidden",
+              background: "#041B18",
+              marginBottom: 20,
+              border: "1px solid rgba(0, 106, 78, 0.12)",
+            }}
+          >
+            <img
+              src={image}
+              alt={title}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+        ) : (
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 14,
+              background: "rgba(0, 106, 78, 0.10)",
+              border: "1px solid rgba(0, 106, 78, 0.25)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 20,
+            }}
+          >
+            <DynamicIcon
+              name={iconName || "BriefcaseIcon"}
+              size={22}
+              style={{ color: "var(--color-brand, #006A4E)" }}
+            />
+          </div>
+        )}
         <h3
           style={{
             fontWeight: 700,
