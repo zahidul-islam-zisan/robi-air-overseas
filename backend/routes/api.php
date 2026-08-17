@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,18 @@ Route::get('/health', function () {
         'success' => true,
         'message' => 'Robi Air Overseas API is running',
     ]);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Authentication API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AdminAuthController::class, 'login']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+        Route::get('/me', [AdminAuthController::class, 'me']);
+        Route::post('/logout', [AdminAuthController::class, 'logout']);
+    });
 });
