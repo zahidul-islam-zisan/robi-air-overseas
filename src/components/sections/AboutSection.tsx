@@ -49,7 +49,12 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             <img
               src="/images/about/about-office.jpg"
               alt={UI_TEXT.about.title[language]}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center 25%",
+              }}
             />
             <div
               style={{
