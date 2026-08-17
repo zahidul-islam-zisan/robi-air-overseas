@@ -1,18 +1,33 @@
 import React, { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { RobiAirLogo } from "../ui/Icons"
+import { HeroSlidesManager } from "./HeroSlidesManager"
 
 interface AdminLayoutProps {
   children: React.ReactNode
   onLogoutSuccess: () => void
+  currentTab?: string
+  onTabChange?: (tab: string) => void
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({
   children,
   onLogoutSuccess,
+  currentTab = "dashboard",
+  onTabChange,
 }) => {
   const { admin, logout } = useAuth()
-  const [activeTab, setActiveTab] = useState("dashboard")
+  const [internalTab, setInternalTab] = useState("dashboard")
+  const activeTab = onTabChange ? currentTab : internalTab
+
+  const handleTabClick = (tabId: string) => {
+    if (onTabChange) {
+      onTabChange(tabId)
+    } else {
+      setInternalTab(tabId)
+    }
+  }
+
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   const handleLogout = async () => {
@@ -27,7 +42,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   const MENU_ITEMS = [
     { id: "dashboard", label: "Dashboard", badge: "Live" },
-    { id: "hero", label: "Hero Slides", badge: "Placeholder" },
+    { id: "hero", label: "Hero Slides", badge: "CRUD Ready" },
     { id: "services", label: "Services", badge: "Placeholder" },
     { id: "packages", label: "Packages", badge: "Placeholder" },
     { id: "overseas", label: "Overseas Services", badge: "Placeholder" },
@@ -153,7 +168,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => handleTabClick(item.id)}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -227,6 +242,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <main style={{ flex: 1, padding: "32px 28px", overflowY: "auto" }}>
           {activeTab === "dashboard" ? (
             children
+          ) : activeTab === "hero" ? (
+            <HeroSlidesManager />
           ) : (
             <div
               style={{

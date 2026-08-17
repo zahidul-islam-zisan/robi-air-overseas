@@ -78,10 +78,23 @@ export default function App() {
   }
 
   if (currentPath.startsWith("/admin")) {
+    const adminSubTab =
+      currentPath === "/admin/hero-slides" ? "hero" : "dashboard"
+
     return (
       <AuthProvider>
         <ProtectedRoute>
-          <AdminLayout onLogoutSuccess={() => navigateTo("/admin/login")}>
+          <AdminLayout
+            currentTab={adminSubTab}
+            onTabChange={(tab) =>
+              navigateTo(
+                tab === "dashboard"
+                  ? "/admin"
+                  : `/admin/${tab === "hero" ? "hero-slides" : tab}`,
+              )
+            }
+            onLogoutSuccess={() => navigateTo("/admin/login")}
+          >
             <AdminDashboard />
           </AdminLayout>
         </ProtectedRoute>
