@@ -83,7 +83,9 @@ export default function App() {
         ? "hero"
         : currentPath === "/admin/services"
           ? "services"
-          : "dashboard"
+          : currentPath === "/admin/packages"
+            ? "packages"
+            : "dashboard"
 
     return (
       <AuthProvider>

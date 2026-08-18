@@ -33,6 +33,24 @@ class Package extends Model
         'is_active' => 'boolean',
     ];
 
+    protected $appends = ['image_url'];
+
+    /**
+     * Get the full public URL for the package image.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (! $this->image) {
+            return '';
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        return asset('storage/' . $this->image);
+    }
+
     /**
      * Get the category that owns the package.
      */

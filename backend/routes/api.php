@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\HeroSlideController;
+use App\Http\Controllers\Api\PackageCategoryController;
+use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -68,5 +70,14 @@ Route::prefix('admin')->group(function () {
         Route::put('/services/{id}', [ServiceController::class, 'update']);
         Route::post('/services/{id}', [ServiceController::class, 'update']);
         Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
+
+        // Package Categories & Packages Management
+        Route::get('/package-categories', [PackageCategoryController::class, 'index']);
+        Route::get('/packages', [PackageController::class, 'index']);
+        Route::post('/packages', [PackageController::class, 'store']);
+        Route::get('/packages/{id}', [PackageController::class, 'show']);
+        Route::put('/packages/{id}', [PackageController::class, 'update']);
+        Route::post('/packages/{id}', [PackageController::class, 'update']);
+        Route::delete('/packages/{id}', [PackageController::class, 'destroy']);
     });
 });
