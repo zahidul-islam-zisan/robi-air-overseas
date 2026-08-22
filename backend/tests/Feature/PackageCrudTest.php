@@ -73,6 +73,53 @@ class PackageCrudTest extends TestCase
     }
 
     /**
+     * Test public endpoint /api/packages returns active packages only ordered by display_order.
+     */
+    public function test_public_can_fetch_active_packages_only()
+    {
+        $category = PackageCategory::create(['name' => 'Tour', 'slug' => 'tour']);
+
+        Package::create([
+            'title' => 'Active Package 2',
+            'package_category_id' => $category->id,
+            'slug' => 'active-package-2',
+            'image' => 'packages/active2.jpg',
+            'display_order' => 2,
+            'is_active' => true,
+        ]);
+
+        Package::create([
+            'title' => 'Inactive Package',
+            'package_category_id' => $category->id,
+            'slug' => 'inactive-package',
+            'image' => 'packages/inactive.jpg',
+            'display_order' => 1,
+            'is_active' => false,
+        ]);
+
+        Package::create([
+            'title' => 'Active Package 1',
+            'package_category_id' => $category->id,
+            'slug' => 'active-package-1',
+            'image' => 'packages/active1.jpg',
+            'display_order' => 1,
+            'is_active' => true,
+        ]);
+
+        $response = $this->getJson('/api/packages');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(2, 'data')
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    ['title' => 'Active Package 1', 'display_order' => 1],
+                    ['title' => 'Active Package 2', 'display_order' => 2],
+                ],
+            ]);
+    }
+
+    /**
      * Test admin can list packages.
      */
     public function test_admin_can_list_packages()

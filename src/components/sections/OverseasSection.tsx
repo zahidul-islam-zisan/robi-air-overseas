@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import type { Language } from "../../types"
 import { OVERSEAS_FEATURES, UI_TEXT } from "../../data/siteData"
 import { Badge } from "../ui/Badge"
 import { CheckIcon, ArrowRightIcon } from "../ui/Icons"
+import {
+  getPublicOverseasServicesApi,
+  type OverseasServiceItem,
+} from "../../services/overseasApi"
 
 interface OverseasSectionProps {
   language: Language
@@ -13,6 +17,32 @@ export const OverseasSection: React.FC<OverseasSectionProps> = ({
   language,
   onNavigate,
 }) => {
+  const [apiServices, setApiServices] = useState<OverseasServiceItem[]>([])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadPublicOverseasServices() {
+      const response = await getPublicOverseasServicesApi()
+      if (
+        isMounted &&
+        response.success &&
+        Array.isArray(response.data) &&
+        response.data.length > 0
+      ) {
+        setApiServices(response.data as OverseasServiceItem[])
+      }
+    }
+
+    loadPublicOverseasServices()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const hasApiServices = apiServices.length > 0
+
   return (
     <section style={{ padding: "96px 24px", background: "#f8faf9" }}>
       <div
@@ -49,12 +79,16 @@ export const OverseasSection: React.FC<OverseasSectionProps> = ({
             }}
           >
             <img
-              src="/images/overseas/overseas-consultant.jpg"
+              src={
+                hasApiServices
+                  ? apiServices[0].image_url
+                  : "/images/overseas/overseas-consultant.jpg"
+              }
               alt={UI_TEXT.overseas.title[language]}
               style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "contain",
+                objectFit: "cover",
               }}
             />
             <div
@@ -105,43 +139,91 @@ export const OverseasSection: React.FC<OverseasSectionProps> = ({
               marginBottom: 32,
             }}
           >
-            {OVERSEAS_FEATURES.map((item, i) => (
-              <div
-                key={i}
-                style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
-              >
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 12,
-                    background: "#0f2018",
-                    border: "1px solid rgba(0,168,107,0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <CheckIcon size={14} style={{ color: "#6ee7b7" }} />
-                </div>
-                <div>
+            {hasApiServices
+              ? apiServices.map((item) => (
                   <div
+                    key={item.id}
                     style={{
-                      fontWeight: 700,
-                      fontSize: 15,
-                      marginBottom: 4,
-                      color: "#0f2018",
+                      display: "flex",
+                      gap: 16,
+                      alignItems: "flex-start",
                     }}
                   >
-                    {item.title[language]}
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 12,
+                        background: "#0f2018",
+                        border: "1px solid rgba(0,168,107,0.3)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <CheckIcon size={14} style={{ color: "#6ee7b7" }} />
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 15,
+                          marginBottom: 4,
+                          color: "#0f2018",
+                        }}
+                      >
+                        {item.title} {item.country ? `(${item.country})` : ""}
+                      </div>
+                      {item.description && (
+                        <div style={{ color: "#5a7066", fontSize: 14 }}>
+                          {item.description}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div style={{ color: "#5a7066", fontSize: 14 }}>
-                    {item.desc[language]}
+                ))
+              : OVERSEAS_FEATURES.map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      gap: 16,
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 12,
+                        background: "#0f2018",
+                        border: "1px solid rgba(0,168,107,0.3)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <CheckIcon size={14} style={{ color: "#6ee7b7" }} />
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 15,
+                          marginBottom: 4,
+                          color: "#0f2018",
+                        }}
+                      >
+                        {item.title[language]}
+                      </div>
+                      <div style={{ color: "#5a7066", fontSize: 14 }}>
+                        {item.desc[language]}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
           </div>
 
           <button

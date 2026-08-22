@@ -85,7 +85,17 @@ export default function App() {
           ? "services"
           : currentPath === "/admin/packages"
             ? "packages"
-            : "dashboard"
+            : currentPath === "/admin/overseas"
+              ? "overseas"
+              : currentPath === "/admin/gallery"
+                ? "gallery"
+                : currentPath === "/admin/testimonials"
+                  ? "testimonials"
+                  : currentPath === "/admin/messages"
+                    ? "messages"
+                    : currentPath === "/admin/inquiries"
+                      ? "inquiries"
+                      : "dashboard"
 
     return (
       <AuthProvider>

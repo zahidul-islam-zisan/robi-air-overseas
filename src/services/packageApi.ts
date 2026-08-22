@@ -37,6 +37,27 @@ export interface PackageResponse {
 }
 
 /**
+ * Fetch active packages for the public homepage (Public).
+ */
+export async function getPublicPackagesApi(): Promise<PackageResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/packages`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    const data = await response.json()
+    return data
+  } catch (error) {
+    return {
+      success: false,
+      message: "Network error. Unable to fetch public packages.",
+    }
+  }
+}
+
+/**
  * Fetch list of all active package categories (Admin).
  */
 export async function getPackageCategoriesApi(

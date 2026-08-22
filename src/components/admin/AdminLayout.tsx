@@ -4,6 +4,11 @@ import { RobiAirLogo } from "../ui/Icons"
 import { HeroSlidesManager } from "./HeroSlidesManager"
 import { ServicesManager } from "./ServicesManager"
 import { PackagesManager } from "./PackagesManager"
+import { OverseasServicesManager } from "./OverseasServicesManager"
+import { GalleryManager } from "./GalleryManager"
+import { TestimonialsManager } from "./TestimonialsManager"
+import { ContactMessagesManager } from "./ContactMessagesManager"
+import { BookingInquiriesManager } from "./BookingInquiriesManager"
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -47,11 +52,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     { id: "hero", label: "Hero Slides", badge: "CRUD Ready" },
     { id: "services", label: "Services", badge: "CRUD Ready" },
     { id: "packages", label: "Packages", badge: "CRUD Ready" },
-    { id: "overseas", label: "Overseas Services", badge: "Placeholder" },
-    { id: "gallery", label: "Gallery Assets", badge: "Placeholder" },
-    { id: "testimonials", label: "Testimonials", badge: "Placeholder" },
-    { id: "messages", label: "Contact Messages", badge: "Placeholder" },
-    { id: "inquiries", label: "Booking Inquiries", badge: "Placeholder" },
+    { id: "overseas", label: "Overseas Services", badge: "CRUD Ready" },
+    { id: "gallery", label: "Gallery Assets", badge: "CRUD Ready" },
+    { id: "testimonials", label: "Testimonials", badge: "CRUD Ready" },
+    { id: "messages", label: "Contact Messages", badge: "CRUD Ready" },
+    { id: "inquiries", label: "Booking Inquiries", badge: "CRUD Ready" },
   ]
 
   return (
@@ -250,6 +255,16 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <ServicesManager />
           ) : activeTab === "packages" ? (
             <PackagesManager />
+          ) : activeTab === "overseas" ? (
+            <OverseasServicesManager />
+          ) : activeTab === "gallery" ? (
+            <GalleryManager />
+          ) : activeTab === "testimonials" ? (
+            <TestimonialsManager />
+          ) : activeTab === "messages" ? (
+            <ContactMessagesManager />
+          ) : activeTab === "inquiries" ? (
+            <BookingInquiriesManager />
           ) : (
             <div
               style={{

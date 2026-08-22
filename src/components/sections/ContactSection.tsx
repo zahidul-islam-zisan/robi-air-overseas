@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import type { Language, InquiryFormData, FormErrors } from "../../types"
 import { UI_TEXT, CONTACT_INFO_LIST, SERVICES_DATA } from "../../data/siteData"
 import { SectionHeader } from "../ui/SectionHeader"
+import { submitContactMessageApi } from "../../services/contactApi"
 import {
   DynamicIcon,
   CheckIcon,
@@ -66,21 +67,28 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) return
 
     setIsSubmitting(true)
 
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      await submitContactMessageApi({
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        subject: formData.service,
+        message: formData.message.trim() || `Inquiry for ${formData.service}`,
+      })
       setSubmitted(true)
       setFormData({ name: "", phone: "", email: "", service: "", message: "" })
       setErrors({})
-
       setTimeout(() => setSubmitted(false), 5000)
-    }, 800)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const inputStyle = (hasError?: boolean): React.CSSProperties => ({

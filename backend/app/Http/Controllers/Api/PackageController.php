@@ -31,6 +31,25 @@ class PackageController extends Controller
     }
 
     /**
+     * Display a listing of active packages for the public homepage.
+     *
+     * GET /api/packages
+     */
+    public function publicIndex(): JsonResponse
+    {
+        $packages = Package::with('category')
+            ->where('is_active', true)
+            ->orderBy('display_order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $packages,
+        ], 200);
+    }
+
+    /**
      * Store a newly created package in storage.
      *
      * POST /api/admin/packages

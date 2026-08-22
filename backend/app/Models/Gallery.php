@@ -23,4 +23,22 @@ class Gallery extends Model
         'display_order' => 'integer',
         'is_active' => 'boolean',
     ];
+
+    protected $appends = ['image_url'];
+
+    /**
+     * Get the full public URL for the gallery image.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (! $this->image) {
+            return '';
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        return asset('storage/' . $this->image);
+    }
 }

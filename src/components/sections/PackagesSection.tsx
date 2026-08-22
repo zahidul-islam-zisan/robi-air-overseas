@@ -1,9 +1,13 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import type { Language } from "../../types"
 import { PACKAGES_DATA, UI_TEXT } from "../../data/siteData"
 import { SectionHeader } from "../ui/SectionHeader"
 import { PackageCard } from "../ui/Card"
 import { ArrowRightIcon } from "../ui/Icons"
+import {
+  getPublicPackagesApi,
+  type PackageItem,
+} from "../../services/packageApi"
 
 interface PackagesSectionProps {
   language: Language
@@ -14,6 +18,32 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
   language,
   onNavigate,
 }) => {
+  const [apiPackages, setApiPackages] = useState<PackageItem[]>([])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadPublicPackages() {
+      const response = await getPublicPackagesApi()
+      if (
+        isMounted &&
+        response.success &&
+        Array.isArray(response.data) &&
+        response.data.length > 0
+      ) {
+        setApiPackages(response.data as PackageItem[])
+      }
+    }
+
+    loadPublicPackages()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const hasApiPackages = apiPackages.length > 0
+
   return (
     <section
       id="packages"
@@ -32,19 +62,35 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
             gap: 32,
           }}
         >
-          {PACKAGES_DATA.map((pkg) => (
-            <PackageCard
-              key={pkg.id}
-              image={pkg.img}
-              imageAlt={pkg.alt[language]}
-              badge={pkg.badge[language]}
-              title={pkg.title[language]}
-              subtitle={pkg.subtitle[language]}
-              description={UI_TEXT.packages.note[language]}
-              ctaText={pkg.cta[language]}
-              onContactClick={() => onNavigate("contact")}
-            />
-          ))}
+          {hasApiPackages
+            ? apiPackages.map((pkg) => (
+                <PackageCard
+                  key={pkg.id}
+                  image={pkg.image_url}
+                  imageAlt={pkg.title}
+                  badge={pkg.category?.name || "Package"}
+                  title={pkg.title}
+                  subtitle={pkg.price || pkg.duration || "Travel Package"}
+                  description={
+                    pkg.short_description || UI_TEXT.packages.note[language]
+                  }
+                  ctaText={language === "bn" ? "প্যাকেজ বুক করুন" : "Book Package"}
+                  onContactClick={() => onNavigate("contact")}
+                />
+              ))
+            : PACKAGES_DATA.map((pkg) => (
+                <PackageCard
+                  key={pkg.id}
+                  image={pkg.img}
+                  imageAlt={pkg.alt[language]}
+                  badge={pkg.badge[language]}
+                  title={pkg.title[language]}
+                  subtitle={pkg.subtitle[language]}
+                  description={UI_TEXT.packages.note[language]}
+                  ctaText={pkg.cta[language]}
+                  onContactClick={() => onNavigate("contact")}
+                />
+              ))}
         </div>
 
         <div style={{ textAlign: "center", marginTop: 48 }}>
